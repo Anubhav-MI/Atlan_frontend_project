@@ -23,7 +23,7 @@ function HeroPlanner() {
         <select
           value={theme}
           onChange={(e) => setThemeLocal(e.target.value)}
-          className="w-full border rounded-md px-3 py-2 text-sm dark:bg-slate-800 dark:border-slate-700"
+          className="w-full border rounded-md px-3 py-2 text-sm bg-white/80 dark:bg-slate-900/60 backdrop-blur dark:border-slate-700/30"
         >
           <option value="default">Default</option>
           <option value="lazy">Lazy Weekend</option>
@@ -38,7 +38,7 @@ function HeroPlanner() {
         <select
           value={mood}
           onChange={(e) => setMood(e.target.value)}
-          className="w-full border rounded-md px-3 py-2 text-sm dark:bg-slate-800 dark:border-slate-700"
+          className="w-full border rounded-md px-3 py-2 text-sm bg-white/80 dark:bg-slate-900/60 backdrop-blur dark:border-slate-700/30"
         >
           <option value="">Any</option>
           <option value="happy">Happy</option>
@@ -55,7 +55,7 @@ function HeroPlanner() {
           type="date"
           value={start}
           onChange={(e) => setStart(e.target.value)}
-          className="w-full border rounded-md px-3 py-2 text-sm dark:bg-slate-800 dark:border-slate-700"
+          className="w-full border rounded-md px-3 py-2 text-sm bg-white/80 dark:bg-slate-900/60 backdrop-blur dark:border-slate-700/30"
         />
       </div>
       <div className="flex items-end sm:col-span-1">

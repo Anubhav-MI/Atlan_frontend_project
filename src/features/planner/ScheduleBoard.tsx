@@ -77,7 +77,7 @@ function DayColumn({ day }: { day: DayId }) {
               type="time"
               value={it.start}
               onChange={(e) => updateItem(it.id, { start: e.target.value })}
-              className="border rounded-md px-2 py-1 text-sm dark:bg-slate-800 dark:border-slate-700"
+              className="border rounded-md px-2 py-1 text-sm bg-white/80 dark:bg-slate-900/60 backdrop-blur dark:border-slate-700/30"
               aria-label="Start time"
             />
             <input
@@ -86,7 +86,7 @@ function DayColumn({ day }: { day: DayId }) {
               onChange={(e) =>
                 updateItem(it.id, { durationMin: Number(e.target.value) })
               }
-              className="border rounded-md px-2 py-1 w-24 text-sm dark:bg-slate-800 dark:border-slate-700"
+              className="border rounded-md px-2 py-1 w-24 text-sm bg-white/80 dark:bg-slate-900/60 backdrop-blur dark:border-slate-700/30"
               aria-label="Duration (min)"
             />
             <div className="flex-1 min-w-[160px] text-sm flex items-center gap-2">
@@ -101,7 +101,7 @@ function DayColumn({ day }: { day: DayId }) {
               onChange={(e) =>
                 updateItem(it.id, { mood: e.target.value as any })
               }
-              className="border rounded-md px-2 py-1 text-sm dark:bg-slate-800 dark:border-slate-700"
+              className="border rounded-md px-2 py-1 text-sm bg-white/80 dark:bg-slate-900/60 backdrop-blur dark:border-slate-700/30"
               aria-label="Mood"
             >
               <option value="">Mood</option>
@@ -115,7 +115,7 @@ function DayColumn({ day }: { day: DayId }) {
               onChange={(e) =>
                 updateItem(it.id, { day: e.target.value as DayId })
               }
-              className="border rounded-md px-2 py-1 text-sm dark:bg-slate-800 dark:border-slate-700"
+              className="border rounded-md px-2 py-1 text-sm bg-white/80 dark:bg-slate-900/60 backdrop-blur dark:border-slate-700/30"
               aria-label="Move to day"
             >
               <option value="saturday">Saturday</option>
