@@ -5,6 +5,7 @@ import {
   selectUpdateItem,
   selectActivities,
   type DayId,
+  type Mood,
   usePlanStore,
 } from "../../store/planStore";
 
@@ -15,7 +16,7 @@ function DayColumn({ day }: { day: DayId }) {
       allItems
         .filter((i) => i.day === day)
         .slice()
-        .sort((a, b) => a.start.localeCompare(b.start)),
+        .sort((a, b) => ((a.order ?? 0) - (b.order ?? 0)) || a.start.localeCompare(b.start)),
     [allItems, day]
   );
   const updateItem = usePlanStore(selectUpdateItem);
@@ -55,19 +56,31 @@ function DayColumn({ day }: { day: DayId }) {
         onDrop={(e: React.DragEvent<HTMLDivElement>) => {
           e.preventDefault();
           e.currentTarget.classList.remove("drag-over");
-          const overLi = (e.target as HTMLElement).closest(
-            "[data-id]"
-          ) as HTMLElement | null;
-          const overId = overLi?.getAttribute("data-id");
-          const id = draggedId || e.dataTransfer.getData("text/plain");
-          if (!id) return;
-          const ordered = items.map((x) => x.id);
-          const from = ordered.indexOf(id);
-          let to = overId ? ordered.indexOf(overId) : ordered.length - 1;
-          if (from === -1 || to === -1) return;
-          if (from === to) return;
-          ordered.splice(to, 0, ordered.splice(from, 1)[0]);
-          reorderInDay(day, ordered);
+
+          const droppedId = draggedId || e.dataTransfer.getData("text/plain");
+          if (!droppedId) return;
+
+          // Find the drop target element
+          const dropTarget = (e.target as HTMLElement).closest("[data-id]") as HTMLElement | null;
+          const dropTargetId = dropTarget?.getAttribute("data-id");
+          
+          // Get current ordered items for this day
+          const orderedItems = items.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+          const orderedIds = orderedItems.map(x => x.id);
+
+          // Find the positions
+          const fromIndex = orderedIds.indexOf(droppedId);
+          const dropTargetIndex = dropTargetId ? orderedIds.indexOf(dropTargetId) : orderedIds.length;
+          
+          if (fromIndex === -1) return; // Item not found
+          if (fromIndex === dropTargetIndex) return; // Same position
+
+          // Remove from old position and insert at new position
+          orderedIds.splice(fromIndex, 1);
+          orderedIds.splice(dropTargetIndex, 0, droppedId);
+
+          // Update the store
+          reorderInDay(day, orderedIds);
           setDraggedId(null);
         }}
       >
@@ -130,7 +143,10 @@ function DayColumn({ day }: { day: DayId }) {
               <div className="flex items-center gap-2 flex-wrap">
                 <select
                   value={it.mood || ""}
-                  onChange={(e) => updateItem(it.id, { mood: e.target.value })}
+                  onChange={(e) => {
+                    const value = e.target.value as Mood | '';
+                    updateItem(it.id, { mood: value || undefined });
+                  }}
                   className="border rounded-md px-3 py-1.5 text-sm bg-white/80 dark:bg-slate-900/60 backdrop-blur border-brand-100 dark:border-slate-700/30"
                   aria-label="Mood"
                 >
