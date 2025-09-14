@@ -47,7 +47,7 @@ function App() {
               </Link>
               <a
                 className="hover:text-brand-500 transition-colors"
-                href="https://github.com/"
+                href="https://github.com/Anubhav-MI/Atlan_frontend_project"
                 target="_blank"
                 rel="noreferrer"
               >

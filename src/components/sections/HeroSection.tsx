@@ -19,8 +19,9 @@ function HeroPlanner() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="mt-4 sm:mt-6 grid gap-2 sm:gap-3 sm:grid-cols-5 p-3 sm:p-4 rounded-xl bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border border-brand-100/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300">
-      <motion.div 
+      className="mt-4 sm:mt-6 grid gap-2 sm:gap-3 sm:grid-cols-5 p-3 sm:p-4 rounded-xl bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border border-brand-100/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300"
+    >
+      <motion.div
         className="sm:col-span-2"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -41,8 +42,16 @@ function HeroPlanner() {
             <option value="family">👨‍👩‍👧‍👦 Family</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-gray-500/70">
-            <svg className="h-4 w-4 transition-transform group-hover:translate-y-0.5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+            <svg
+              className="h-4 w-4 transition-transform group-hover:translate-y-0.5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
             </svg>
           </div>
         </div>
@@ -69,8 +78,16 @@ function HeroPlanner() {
             <option value="chill">🧘‍♂️ Chill</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-gray-500/70">
-            <svg className="h-4 w-4 transition-transform group-hover:translate-y-0.5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+            <svg
+              className="h-4 w-4 transition-transform group-hover:translate-y-0.5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
             </svg>
           </div>
         </div>
@@ -94,7 +111,7 @@ function HeroPlanner() {
         </div>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="flex items-end sm:col-span-1"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -161,7 +178,7 @@ export function HeroSection() {
 
       <div className="absolute inset-0 flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -171,8 +188,8 @@ export function HeroSection() {
               Design your perfect weekend
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-white/90 mt-3 max-w-lg">
-              Pick a vibe, add activities, and craft a memorable
-              Saturday–Sunday filled with experiences you'll love.
+              Pick a vibe, add activities, and craft a memorable Saturday–Sunday
+              filled with experiences you'll love.
             </p>
           </motion.div>
           <HeroPlanner />

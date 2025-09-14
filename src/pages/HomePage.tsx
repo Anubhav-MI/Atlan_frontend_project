@@ -35,7 +35,7 @@ export function HomePage() {
           className="relative grid md:grid-cols-2 gap-8 mb-16"
         >
           <AnimatedCard className="p-8 group bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-brand-100/20 dark:border-slate-700/30 rounded-2xl hover:shadow-xl transition-all duration-300">
-            <motion.span 
+            <motion.span
               whileHover={{ scale: 1.2, rotate: 12 }}
               className="inline-block text-5xl mb-6"
             >
@@ -66,7 +66,7 @@ export function HomePage() {
           </AnimatedCard>
 
           <AnimatedCard className="p-8 group bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-brand-100/20 dark:border-slate-700/30 rounded-2xl hover:shadow-xl transition-all duration-300">
-            <motion.span 
+            <motion.span
               whileHover={{ scale: 1.2, rotate: -12 }}
               className="inline-block text-5xl mb-6"
             >
@@ -107,11 +107,11 @@ export function HomePage() {
             Why Choose Weekendly?
           </h3>
           <div className="grid md:grid-cols-3 gap-8">
-            <motion.div 
+            <motion.div
               whileHover={{ y: -8 }}
               className="p-6 rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-brand-100/20 dark:border-slate-700/30 transition-shadow hover:shadow-xl"
             >
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.2, rotate: 12 }}
                 className="text-4xl mb-4 inline-block"
               >
@@ -124,12 +124,12 @@ export function HomePage() {
                 Plan your entire weekend in minutes with our intuitive interface
               </p>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               whileHover={{ y: -8 }}
               className="p-6 rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-brand-100/20 dark:border-slate-700/30 transition-shadow hover:shadow-xl"
             >
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.2, rotate: -12 }}
                 className="text-4xl mb-4 inline-block"
               >
@@ -142,12 +142,12 @@ export function HomePage() {
                 Hand-picked activities for every type of weekend warrior
               </p>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               whileHover={{ y: -8 }}
               className="p-6 rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-brand-100/20 dark:border-slate-700/30 transition-shadow hover:shadow-xl"
             >
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.2 }}
                 className="text-4xl mb-4 inline-block"
               >
