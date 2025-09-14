@@ -62,7 +62,7 @@ export function ActivityList() {
               </span>
             </div>
           </div>
-          
+
           <div className="flex flex-wrap gap-2">
             <select
               value={category}
