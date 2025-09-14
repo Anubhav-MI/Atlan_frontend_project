@@ -43,7 +43,10 @@ type PlanState = {
   plan: WeekendPlan;
   // selectors
   getItemsByDay: (day: DayId) => ScheduledItem[];
-  // actions
+  // storage actions
+  exportToFile: () => void;
+  importFromFile: (file: File) => Promise<void>;
+  // plan actions
   setActivities: (activities: Activity[]) => void;
   setTheme: (themeId: WeekendPlan["themeId"]) => void;
   addScheduledItem: (item: Omit<ScheduledItem, "id">) => string;
@@ -54,6 +57,38 @@ type PlanState = {
 };
 
 const generateId = () => Math.random().toString(36).slice(2, 10);
+
+const STORAGE_KEY = "sun-bucket-weekend-plans";
+
+// Helper to check if localStorage is available
+const isStorageAvailable = () => {
+  try {
+    const test = "__storage_test__";
+    localStorage.setItem(test, test);
+    localStorage.removeItem(test);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+// Backup plans to a file
+const exportPlans = (plan: WeekendPlan) => {
+  try {
+    const data = JSON.stringify(plan, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `weekend-plans-${new Date().toISOString().split("T")[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Failed to export plans:", error);
+  }
+};
 
 export const usePlanStore = create<PlanState>()(
   persist(
@@ -123,15 +158,69 @@ export const usePlanStore = create<PlanState>()(
             ),
           },
         })),
+
+      exportToFile: () => {
+        const state = get();
+        exportPlans(state.plan);
+      },
+
+      importFromFile: async (file: File) => {
+        try {
+          const text = await file.text();
+          const data = JSON.parse(text) as WeekendPlan;
+          // Validate the imported data
+          if (!data || !data.id || !Array.isArray(data.items)) {
+            throw new Error("Invalid file format");
+          }
+          set((state) => ({
+            plan: {
+              ...data,
+              id: "current", // Always use current as the id
+              items: data.items.map((item, index) => ({
+                ...item,
+                id: generateId(), // Generate new IDs to avoid conflicts
+                order: index,
+              })),
+            },
+          }));
+        } catch (error) {
+          console.error("Failed to import plans:", error);
+          throw error;
+        }
+      },
     }),
     {
-      name: "weekendly-plan",
-      storage: createJSONStorage(() => localStorage),
+      name: STORAGE_KEY,
+      storage: createJSONStorage(() => ({
+        getItem: (key) => {
+          const value = localStorage.getItem(key);
+          if (value === null) return null;
+          try {
+            return JSON.parse(value);
+          } catch {
+            console.warn(`Failed to parse stored value for ${key}`);
+            return null;
+          }
+        },
+        setItem: (key, value) => {
+          try {
+            localStorage.setItem(key, JSON.stringify(value));
+          } catch (error) {
+            console.warn(`Failed to store value for ${key}:`, error);
+          }
+        },
+        removeItem: (key) => localStorage.removeItem(key),
+      })),
       partialize: (state) => ({
         plan: state.plan,
         activities: state.activities,
       }),
       version: 1,
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          console.log("Weekend plans restored from storage");
+        }
+      },
     }
   )
 );
@@ -146,3 +235,5 @@ export const selectAddItem = (s: PlanState) => s.addScheduledItem;
 export const selectUpdateItem = (s: PlanState) => s.updateScheduledItem;
 export const selectRemoveItem = (s: PlanState) => s.removeScheduledItem;
 export const selectSetTheme = (s: PlanState) => s.setTheme;
+export const selectExportToFile = (s: PlanState) => s.exportToFile;
+export const selectImportFromFile = (s: PlanState) => s.importFromFile;

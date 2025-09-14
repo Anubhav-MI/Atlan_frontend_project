@@ -16,7 +16,10 @@ function DayColumn({ day }: { day: DayId }) {
       allItems
         .filter((i) => i.day === day)
         .slice()
-        .sort((a, b) => ((a.order ?? 0) - (b.order ?? 0)) || a.start.localeCompare(b.start)),
+        .sort(
+          (a, b) =>
+            (a.order ?? 0) - (b.order ?? 0) || a.start.localeCompare(b.start)
+        ),
     [allItems, day]
   );
   const updateItem = usePlanStore(selectUpdateItem);
@@ -61,17 +64,23 @@ function DayColumn({ day }: { day: DayId }) {
           if (!droppedId) return;
 
           // Find the drop target element
-          const dropTarget = (e.target as HTMLElement).closest("[data-id]") as HTMLElement | null;
+          const dropTarget = (e.target as HTMLElement).closest(
+            "[data-id]"
+          ) as HTMLElement | null;
           const dropTargetId = dropTarget?.getAttribute("data-id");
-          
+
           // Get current ordered items for this day
-          const orderedItems = items.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-          const orderedIds = orderedItems.map(x => x.id);
+          const orderedItems = items
+            .slice()
+            .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+          const orderedIds = orderedItems.map((x) => x.id);
 
           // Find the positions
           const fromIndex = orderedIds.indexOf(droppedId);
-          const dropTargetIndex = dropTargetId ? orderedIds.indexOf(dropTargetId) : orderedIds.length;
-          
+          const dropTargetIndex = dropTargetId
+            ? orderedIds.indexOf(dropTargetId)
+            : orderedIds.length;
+
           if (fromIndex === -1) return; // Item not found
           if (fromIndex === dropTargetIndex) return; // Same position
 
@@ -144,7 +153,7 @@ function DayColumn({ day }: { day: DayId }) {
                 <select
                   value={it.mood || ""}
                   onChange={(e) => {
-                    const value = e.target.value as Mood | '';
+                    const value = e.target.value as Mood | "";
                     updateItem(it.id, { mood: value || undefined });
                   }}
                   className="border rounded-md px-3 py-1.5 text-sm bg-white/80 dark:bg-slate-900/60 backdrop-blur border-brand-100 dark:border-slate-700/30"
