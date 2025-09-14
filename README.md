@@ -1,69 +1,167 @@
-# React + TypeScript + Vite
+# Weekendly: Weekend Activity Planner - Design Decisions & Implementation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Design Philosophy & Architecture
 
-Currently, two official plugins are available:
+### Component Design Strategy
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application follows a component-driven architecture with a clear separation of concerns:
 
-## Expanding the ESLint configuration
+1. **Feature-based Organization**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+   - Components are organized by feature rather than type (`/features/activities`, `/features/planner`)
+   - Shared UI components are maintained in a separate `/components` directory
+   - Clear distinction between presentational and container components
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+2. **Component Hierarchy**
+   ```
+   src/
+   ├── components/         # Reusable UI components
+   │   ├── core/          # Core layout components
+   │   ├── sections/      # Larger composite components
+   │   └── ui/           # Atomic UI components
+   ├── features/          # Feature-specific components
+   │   ├── activities/    # Activity management
+   │   └── planner/       # Schedule planning
+   └── pages/            # Route-level components
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### State Management & Data Flow
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. **Centralized Store**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+   - Utilized a custom store implementation using React's Context API
+   - Chose simplicity over Redux due to moderate app size and straightforward state requirements
+   - State selectors for efficient data access and memoization
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. **State Structure**
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+   ```typescript
+   interface PlanStore {
+     activities: Activity[];
+     schedule: ScheduleItem[];
+     theme: ThemePreference;
+     // ... other state
+   }
+   ```
+
+3. **State Management Decisions**
+   - Activities data is loaded once and cached
+   - Schedule changes are immediately reflected in UI
+   - Theme preferences persist across sessions
+   - Optimistic updates for better UX
+
+## UI/UX Design Decisions
+
+### Visual Design
+
+1. **Modern Aesthetic**
+
+   - Glassmorphism for depth and visual hierarchy
+   - Subtle gradients and shadows for elevation
+   - Smooth animations for state transitions
+   - Dark mode support with proper contrast ratios
+
+2. **Component Styling**
+   - Tailwind CSS for rapid development and consistent design
+   - Custom animations using Framer Motion
+   - Responsive design with mobile-first approach
+   - Custom design system tokens for colors and spacing
+
+### User Experience Enhancements
+
+1. **Micro-interactions**
+
+   - Hover states for interactive elements
+   - Loading states and transitions
+   - Feedback animations for user actions
+   - Smooth page transitions
+
+2. **Performance Optimizations**
+   - Component lazy loading
+   - Memoized computations for filtered activities
+   - Optimized re-renders using React.memo
+   - Efficient DOM updates with key-based lists
+
+## Creative Features & Integrations
+
+### 1. Smart Weekend Planning
+
+- **Auto-scheduling** algorithm that considers:
+  - User preferences (mood, theme)
+  - Time of day optimization
+  - Activity duration and type
+  - Balance between different activity types
+
+### 2. UI Innovations
+
+- **Dynamic Backgrounds** that reflect current theme
+- **Animated Transitions** between states
+- **Drag-and-Drop** schedule management
+- **Responsive Cards** with context-aware animations
+
+### 3. User Personalization
+
+- **Theme System**
+  - Multiple pre-defined themes (Default, Lazy Weekend, Adventurous, Family)
+  - Theme-based activity filtering
+  - Persistent user preferences
+
+### 4. Activity Management
+
+- **Smart Filtering**
+  - Multi-criteria filtering (category, mood, duration)
+  - Real-time search with debouncing
+  - Category-based organization
+
+## Technical Trade-offs
+
+### 1. State Management
+
+- **Decision**: Custom store vs Redux
+- **Rationale**:
+  - Simpler mental model
+  - Reduced boilerplate
+  - Easier onboarding for new developers
+- **Trade-off**: Less tooling support, potential scalability challenges
+
+### 2. Styling Approach
+
+- **Decision**: Tailwind CSS vs Styled Components
+- **Rationale**:
+  - Rapid development
+  - Better performance
+  - Easier maintenance
+- **Trade-off**: More verbose HTML, steeper learning curve
+
+### 3. Animation Library
+
+- **Decision**: Framer Motion vs CSS Animations
+- **Rationale**:
+  - More complex animations possible
+  - Better developer experience
+  - Reusable animation variants
+- **Trade-off**: Larger bundle size, additional dependency
+
+## Future Considerations
+
+1. **Scalability**
+
+   - Consider migrating to Redux if state complexity increases
+   - Implement code splitting for larger feature sets
+   - Add server-side rendering for better initial load
+
+2. **Performance**
+
+   - Implement virtual scrolling for large lists
+   - Add service worker for offline capability
+   - Optimize bundle size further
+
+3. **Features**
+   - Social sharing capabilities
+   - Calendar integration
+   - Activity recommendations
+   - User authentication and profiles
+
+## Conclusion
+
+The project emphasizes user experience while maintaining code quality and performance. The chosen architecture allows for rapid development while keeping the codebase maintainable and scalable. Creative features were added thoughtfully to enhance usability without compromising performance.
