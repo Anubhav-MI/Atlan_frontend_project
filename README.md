@@ -1,4 +1,4 @@
-# Sun Bucket: Weekend Activity Planner - Design Decisions & Implementation
+# Weekendly: Weekend Activity Planner - Design Decisions & Implementation
 
 ## Design Philosophy & Architecture
 
