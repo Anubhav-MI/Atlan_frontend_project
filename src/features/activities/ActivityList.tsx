@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { activitiesCatalog, CATEGORIES, MOODS } from "./data";
-import { Button } from "../../components/ui/Button";
+// import { Button } from "../../components/ui/Button";
 import {
   selectAddItem,
   selectSetActivities,

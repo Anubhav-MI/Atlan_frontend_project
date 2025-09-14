@@ -60,17 +60,17 @@ const generateId = () => Math.random().toString(36).slice(2, 10);
 
 const STORAGE_KEY = "sun-bucket-weekend-plans";
 
-// Helper to check if localStorage is available
-const isStorageAvailable = () => {
-  try {
-    const test = "__storage_test__";
-    localStorage.setItem(test, test);
-    localStorage.removeItem(test);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
+// // Helper to check if localStorage is available
+// const isStorageAvailable = () => {
+//   try {
+//     const test = "__storage_test__";
+//     localStorage.setItem(test, test);
+//     localStorage.removeItem(test);
+//     return true;
+//   } catch (e) {
+//     return false;
+//   }
+// };
 
 // Backup plans to a file
 const exportPlans = (plan: WeekendPlan) => {
@@ -172,7 +172,7 @@ export const usePlanStore = create<PlanState>()(
           if (!data || !data.id || !Array.isArray(data.items)) {
             throw new Error("Invalid file format");
           }
-          set((state) => ({
+          set(() => ({
             plan: {
               ...data,
               id: "current", // Always use current as the id
